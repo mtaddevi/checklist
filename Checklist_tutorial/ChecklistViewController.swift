@@ -40,7 +40,7 @@ class ChecklistViewController: UITableViewController {
     
     //how many rows to display in tableview
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return 8
     }
     
     //action taken when user taps on cell
