@@ -13,7 +13,27 @@ class ChecklistViewController: UITableViewController {
     //create items array
     var items: [ChecklistItem]
     
-
+    //add button logic
+    @IBAction func addItem(_ sender: Any) {
+        print("added item")
+        
+        let newRowIndex = items.count
+        let item  = ChecklistItem()
+        //item.text = "I am a new row"
+        
+        var titles = ["butt", "blue skidoo", "empty", "randomempty"]
+        let randomNumber = arc4random_uniform(UInt32(titles.count))
+        let title = titles[Int(randomNumber)]
+        item.text = title
+        item.checked = true
+        
+        items.append(item)
+        
+        let indexPath = IndexPath(row: newRowIndex, section:0)
+        let indexPaths = [indexPath]
+        tableView.insertRows(at: indexPaths, with: .automatic)
+        
+    }
     //create model
     
 
@@ -58,11 +78,28 @@ class ChecklistViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        //if on ios11 or higher, change title on navigation controller to large
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+        } else {
+            // Fallback on earlier versions
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    //enable swipe to delete with override
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        items.remove(at: indexPath.row)
+        //delete with animation
+        let indexPaths = [indexPath]
+        tableView.deleteRows(at: indexPaths, with: .automatic)
+        //delete without animation
+        //tableView.reloadData()
     }
     
     //how many rows to display in tableview
